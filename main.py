@@ -1,11 +1,10 @@
+import tweepy
 import requests
 import json
 import os
-import tweepy
+import datetime
 from os import environ
-import ntplib
-import time
-from time import ctime
+
 
 consumer_key = environ['CONSUMER_KEY']
 consumer_secret = environ['CONSUMER_SECRET']
@@ -19,15 +18,11 @@ posted = False
 
 while True:
 
-    time.sleep(10)
+    now = datetime.datetime.now()
+    hour = now.hour
+    minute = now.minute
 
-    ntp_client = ntplib.NTPClient()
-    response = ntp_client.request('in.pool.ntp.org')
-    times = ctime(response.tx_time)
-    hour = int(times[11:13])
-    minute = int(times[14:16])
-
-    if hour == 16 and minute == 8 and posted == False:
+    if hour == 16 and minute == 18 and posted == False:
         api = tweepy.API(auth)
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
@@ -68,5 +63,5 @@ while True:
 
         posted = True
 
-    if hour == 16 and minute == 10:
+    if hour == 16 and minute == 20:
         posted = False
