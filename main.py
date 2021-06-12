@@ -22,7 +22,7 @@ while True:
     hour = now.hour
     minute = now.minute
 
-    if hour == 16 and minute == 18 and posted == False:
+    if hour == 16 and minute == 24 and posted == False:
         api = tweepy.API(auth)
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
@@ -63,5 +63,5 @@ while True:
 
         posted = True
 
-    if hour == 16 and minute == 20:
+    if hour == 16 and minute == 27:
         posted = False
