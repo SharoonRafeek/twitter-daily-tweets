@@ -22,7 +22,7 @@ while True:
     hour = now.hour
     minute = now.minute
 
-    if hour == 17 and minute == 23 and posted == False:
+    if hour == 18 and minute == 0 and posted == False:
         api = tweepy.API(auth)
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
@@ -44,8 +44,10 @@ while True:
                 if trend['name'][0] == '#':
                     tags += trend['name'] + " "
                     count += 1
-                if count > 5:
+                if count > 7:
                     break
+            if count > 7:
+                break
 
         tweet = title + '''.
 
@@ -59,5 +61,5 @@ while True:
 
         posted = True
 
-    if hour == 9 and minute == 5:
+    if hour == 18 and minute == 5:
         posted = False
