@@ -22,7 +22,7 @@ while True:
     hour = now.hour
     minute = now.minute
 
-    if hour == 9 and minute == 0 and posted == False:
+    if hour == 5 and minute == 14 and posted == False:
         api = tweepy.API(auth)
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
@@ -30,7 +30,7 @@ while True:
         image_url = data["url"]
 
         image_response = requests.get(image_url)
-        explanation = data["explanation"]
+        title = data["title"]
 
         woeid = 2282863
 
@@ -38,6 +38,7 @@ while True:
 
         tags = ""
         count = 0
+
         for value in trends:
             for trend in value['trends']:
                 if trend['name'][0] == '#':
@@ -45,13 +46,8 @@ while True:
                     count += 1
                 if count > 5:
                     break
-        exp = ''
-        for char in explanation:
-            if char == '.':
-                break
-            else:
-                exp += char
-        tweet = exp + '''.
+
+        tweet = title + '''.
 
 ''' + tags
 
