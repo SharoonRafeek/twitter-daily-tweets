@@ -2,8 +2,10 @@ import requests
 import json
 import os
 import tweepy
-import datetime
 from os import environ
+import ntplib
+import time
+from time import ctime
 
 consumer_key = environ['CONSUMER_KEY']
 consumer_secret = environ['CONSUMER_SECRET']
@@ -17,11 +19,15 @@ posted = False
 
 while True:
 
-    now = datetime.datetime.now()
-    hour = now.hour
-    minute = now.minute
+    time.sleep(10)
 
-    if hour == 16 and minute == 00 and posted == False:
+    ntp_client = ntplib.NTPClient()
+    response = ntp_client.request('in.pool.ntp.org')
+    times = ctime(response.tx_time)
+    hour = int(times[11:13])
+    minute = int(times[14:16])
+
+    if hour == 16 and minute == 8 and posted == False:
         api = tweepy.API(auth)
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
@@ -54,7 +60,7 @@ while True:
 
 ''' + tags
 
-        image_path = os.getcwd() + "/image.png"
+        image_path = "image.png"
         with open(image_path, 'wb') as img:
                 img.write(image_response.content)
         
@@ -62,5 +68,5 @@ while True:
 
         posted = True
 
-    if hour == 16 and minute == 5:
+    if hour == 16 and minute == 10:
         posted = False
