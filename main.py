@@ -22,7 +22,7 @@ while True:
     hour = now.hour
     minute = now.minute
 
-    if hour == 10 and minute == 1 and posted == False:
+    if hour == 18 and minute == 0 and posted == False:
         api = tweepy.API(auth)
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
@@ -53,14 +53,7 @@ while True:
         image_path = "image.png"
         video_path = "video.mp4"
 
-        if data["media_type"] == "video":
-            with open(video_path, 'wb') as vid:
-                vid.write(response.content)
-            upload_result = api.media_upload(video_path)
-            api.update_status(status=tweet, media_ids=[upload_result.media_id_string])
-            posted = True
-
-        else:
+        if data["media_type"] != "video":
             with open(image_path, 'wb') as img:
                 img.write(response.content)
             status = api.update_with_media(image_path, tweet)
