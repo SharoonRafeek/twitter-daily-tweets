@@ -56,7 +56,8 @@ while True:
         if data["media_type"] == "video":
             with open(video_path, 'wb') as vid:
                 vid.write(response.content)
-            status = api.update_with_media(video_path, tweet)
+            upload_result = api.media_upload(video_path)
+            api.update_status(status=tweet, media_ids=[upload_result.media_id_string])
             posted = True
 
         else:
