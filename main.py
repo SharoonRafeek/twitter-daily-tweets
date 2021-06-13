@@ -27,15 +27,14 @@ while True:
         nasa_api = environ['NASA_API']
         response = requests.get(nasa_api)
         data = response.json()
-        image_url = data["url"]
+        media_url = data["url"]
 
-        image_response = requests.get(image_url)
+        response = requests.get(media_url)
         title = data["title"]
 
         woeid = 2282863
 
         trends = api.trends_place(id = woeid)
-
         tags = ""
         count = 0
 
@@ -49,17 +48,24 @@ while True:
             if count > 7:
                 break
 
-        tweet = title + '''.
-
-''' + tags
+        tweet = title + '.\n' + tags
 
         image_path = "image.png"
-        with open(image_path, 'wb') as img:
-                img.write(image_response.content)
-        
-        status = api.update_with_media(image_path, tweet)
+        video_path = "video.mp4"
 
-        posted = True
+        if data["media_type"] == "video":
+            with open(video_path, 'wb') as vid:
+                vid.write(response.content)
+            status = api.update_with_media(video_path, tweet)
+            posted = True
+
+        else:
+            with open(image_path, 'wb') as img:
+                img.write(response.content)
+            status = api.update_with_media(image_path, tweet)
+            posted = True
+        
+        
 
     if hour == 18 and minute == 5:
         posted = False
