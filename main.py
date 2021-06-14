@@ -48,7 +48,7 @@ while True:
             if count > 7:
                 break
 
-        tweet = title + '.\n' + tags
+        tweet = title + '.\n' + '\n' + tags
 
         image_path = "image.png"
         video_path = "video.mp4"
