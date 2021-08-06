@@ -32,21 +32,7 @@ while True:
         response = requests.get(media_url)
         title = data["title"]
 
-        woeid = 2282863
-
-        trends = api.trends_place(id = woeid)
-        tags = ""
-        count = 0
-
-        for value in trends:
-            for trend in value['trends']:
-                if trend['name'][0] == '#':
-                    tags += trend['name'] + " "
-                    count += 1
-                if count > 7:
-                    break
-            if count > 7:
-                break
+        tags = "#astronomy #space #nasa #universe #astrophotography #science #cosmos #moon #stars #galaxy"
 
         tweet = title + '.\n' + '\n' + tags
 
